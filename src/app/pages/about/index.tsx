@@ -6,7 +6,7 @@ import drawer from "@/assets/drawer.png";
 
 const About = () => {
     return (
-        <section className="flex h-[calc(100vh-8rem)] flex-col pb-[50vh]">
+        <section className="flex h-[calc(100vh-8rem)] flex-col pb-[60vh] sm:pb-[50vh]">
             {/* percise p and m calculations to make responsive, weird but it works */}
             <div className="relative -mb-150 flex w-full flex-1 scale-[40%] items-end justify-center md:scale-[60%] lg:scale-[80%] 2xl:scale-[100%]">
                 <div className="absolute bottom-[800px]">
