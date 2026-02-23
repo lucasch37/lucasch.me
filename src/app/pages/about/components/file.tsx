@@ -2,6 +2,8 @@ import { motion } from "motion/react";
 import React from "react";
 import blackTab from "@/assets/tab-black.png";
 import tab from "@/assets/tab.png";
+import { useBrowserEngine } from "@/hooks/use-browser";
+import { cn } from "@/lib/utils";
 
 type Props = {
     tabLocation: 0 | 1 | 2;
@@ -9,7 +11,20 @@ type Props = {
     divider?: boolean;
 };
 
+const browserSpecificOptions = {
+    chromium: {
+        dragMomentum: true,
+        dragElastic: 0.05,
+    },
+    // on non chromium browsers, the drag effect is bugged, disabling momentum and elasticity fixes this
+    nonChromium: {
+        dragMomentum: false,
+        dragElastic: 0.0,
+    },
+};
+
 const File = ({ tabLocation, i, divider = false }: Props) => {
+    const browserEngine = useBrowserEngine();
     const [dragY, setDragY] = React.useState(0);
 
     // for 3d effect, when selecting a file however, face user straight on
@@ -18,25 +33,37 @@ const File = ({ tabLocation, i, divider = false }: Props) => {
     const tabOffsetClass =
         tabLocation === 0 ? "left-[60px]" : tabLocation === 1 ? "left-[250px]" : "left-[440px]";
 
+    const dragConfig =
+        browserSpecificOptions[browserEngine === "chromium" ? "chromium" : "nonChromium"];
+
     return (
         <div className="perspective-[1000px]">
             <motion.div
                 drag="y"
                 dragConstraints={{ top: -200, bottom: 0 }}
-                dragElastic={0.05}
+                dragElastic={dragConfig.dragElastic}
                 dragTransition={{
                     bounceStiffness: 500,
                 }}
+                dragMomentum={dragConfig.dragMomentum}
                 onUpdate={(latest) => setDragY((latest.y as number) || 0)}
-                className={`bg-background relative flex h-[400px] ${dragY < 0 ? "w-[700px] scale-[114%]" : "w-[700px]"} flex-col rounded-lg border p-8`}
+                className={cn(
+                    "bg-background relative flex h-[400px] w-[700px] flex-col rounded-lg border p-8",
+                    dragY < 0 && "scale-[114%]",
+                )}
                 style={{
                     translateZ: `${i * 2}px`,
+                    translateY: dragY < 0 ? `50px` : "0px", // the file appears to move up when dragging because of rotation, counteract to stay aligned with cursor
                     rotateX: rotation,
                     transformStyle: "preserve-3d",
                 }}
             >
                 <motion.div
-                    className={`absolute ${tabOffsetClass} -top-[37.5px] ${dragY < 0 && "pt-[2.5px]"}`}
+                    className={cn(
+                        "absolute -top-[37.5px]",
+                        tabOffsetClass,
+                        dragY < 0 && "pt-[2.5px]",
+                    )}
                     style={{
                         rotateX: -rotation,
                         transformStyle: "preserve-3d",
@@ -49,7 +76,10 @@ const File = ({ tabLocation, i, divider = false }: Props) => {
                             draggable={false}
                         />
                         <div
-                            className={`absolute flex w-[145px] justify-between text-base text-[0.925rem] tracking-tight ${divider ? "text-white" : "text-black"}`}
+                            className={cn(
+                                "absolute flex w-[145px] justify-between text-base text-[0.925rem] tracking-tight",
+                                divider ? "text-white" : "text-black",
+                            )}
                         >
                             <p>01</p>
                             <p>Section</p>
