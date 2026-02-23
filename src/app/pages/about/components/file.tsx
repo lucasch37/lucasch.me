@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import React from "react";
 import blackTab from "@/assets/tab-black.png";
 import tab from "@/assets/tab.png";
+import { useBrowserEngine } from "@/hooks/use-browser";
 
 type Props = {
     tabLocation: 0 | 1 | 2;
@@ -9,7 +10,20 @@ type Props = {
     divider?: boolean;
 };
 
+const browserSpecificOptions = {
+    chromium: {
+        dragMomentum: true,
+        dragElastic: 0.05,
+    },
+    // on non chromium browsers, the drag effect is bugged, disabling momentum and elasticity fixes this
+    nonChromium: {
+        dragMomentum: false,
+        dragElastic: 0.0,
+    },
+};
+
 const File = ({ tabLocation, i, divider = false }: Props) => {
+    const browserEngine = useBrowserEngine();
     const [dragY, setDragY] = React.useState(0);
 
     // for 3d effect, when selecting a file however, face user straight on
@@ -18,15 +32,19 @@ const File = ({ tabLocation, i, divider = false }: Props) => {
     const tabOffsetClass =
         tabLocation === 0 ? "left-[60px]" : tabLocation === 1 ? "left-[250px]" : "left-[440px]";
 
+    const dragConfig =
+        browserSpecificOptions[browserEngine === "chromium" ? "chromium" : "nonChromium"];
+
     return (
         <div className="perspective-[1000px]">
             <motion.div
                 drag="y"
                 dragConstraints={{ top: -200, bottom: 0 }}
-                dragElastic={0.05}
+                dragElastic={dragConfig.dragElastic}
                 dragTransition={{
                     bounceStiffness: 500,
                 }}
+                dragMomentum={dragConfig.dragMomentum}
                 onUpdate={(latest) => setDragY((latest.y as number) || 0)}
                 className={`bg-background relative flex h-[400px] ${dragY < 0 ? "w-[700px] scale-[114%]" : "w-[700px]"} flex-col rounded-lg border p-8`}
                 style={{
