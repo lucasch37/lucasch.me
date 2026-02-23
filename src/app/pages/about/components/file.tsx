@@ -48,7 +48,7 @@ const File = ({ tabLocation, i, divider = false }: Props) => {
                 dragMomentum={dragConfig.dragMomentum}
                 onUpdate={(latest) => setDragY((latest.y as number) || 0)}
                 className={cn(
-                    "bg-background relative flex h-[400px] w-[700px] flex-col rounded-lg border p-8",
+                    "bg-background relative flex h-[400px] w-[700px] flex-col rounded-lg border p-6",
                     dragY < 0 && "scale-[114%]",
                 )}
                 style={{
@@ -86,8 +86,10 @@ const File = ({ tabLocation, i, divider = false }: Props) => {
                         </div>
                     </div>
                 </motion.div>
-                <h1 className="font-mono font-semibold tracking-tighter">title</h1>
-                <h2 className="text-muted-foreground text-sm">subheading</h2>
+                <header className="flex items-center gap-2">
+                    <h1 className="font-semibold tracking-tighter">Cartogram</h1>
+                    <h2 className="text-muted-foreground text-sm">2020-2024</h2>
+                </header>
             </motion.div>
         </div>
     );

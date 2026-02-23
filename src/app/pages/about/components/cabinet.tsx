@@ -6,13 +6,13 @@ import drawer from "@/assets/drawer.png";
 const Cabinet = () => {
     return (
         <>
-            <motion.div className="flex flex-col items-center space-y-[-380px]">
+            <motion.div className="flex flex-col items-center space-y-[-380px] px-16 pt-[30vh] [clip-path:inset(0_0_360px_0)]">
                 {drawerContent.map((file, i) => (
                     <File key={i} tabLocation={file.tabLocation} i={i} divider={file.divider} />
                 ))}
             </motion.div>
             <div className="absolute bottom-0">
-                <div className="bg-background relative flex h-[360px] justify-center">
+                <div className="relative mb-[240px] flex h-[120px] justify-center">
                     <div className="absolute -top-[290px] left-[67px] -z-10">
                         <div className="bg-primary h-[1.5px] w-[290px] origin-top-left rotate-[92.5deg]"></div>
                     </div>
