@@ -1,10 +1,27 @@
-import { ArrowBigDown } from "lucide-react";
+import drawer from "@/assets/drawer.png";
+import blackTab from "@/assets/tab-black.png";
+import tab from "@/assets/tab.png";
+import { useImagePreloader } from "@/hooks/use-image-preloader";
+import { ArrowBigDown, Loader2 } from "lucide-react";
+import { motion } from "motion/react";
+import { useMemo } from "react";
 import drawerContent from "./components/drawer-content";
 import File from "./components/file";
-import { motion } from "motion/react";
-import drawer from "@/assets/drawer.png";
 
 const About = () => {
+    const imageUrls = useMemo(() => [drawer, tab, blackTab], []);
+
+    // preload images to prevent strange appearance when images haven't loaded yet
+    const imagesLoaded = useImagePreloader(imageUrls);
+
+    if (!imagesLoaded) {
+        return (
+            <section className="flex h-[calc(100vh-8rem)] items-center justify-center">
+                <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
+            </section>
+        );
+    }
+
     return (
         <section className="flex h-[calc(100vh-8rem)] flex-col pb-[60vh] sm:pb-[50vh]">
             {/* percise p and m calculations to make responsive, weird but it works */}
@@ -32,7 +49,11 @@ const About = () => {
                             <div className="bg-primary h-[1.5px] w-[290px] origin-top-right rotate-[87.5deg]"></div>
                         </div>
                         <div className="w-[930px]">
-                            <img src={drawer} className="h-auto w-full" />
+                            <img
+                                src={drawer}
+                                className="h-auto w-full select-none"
+                                draggable={false}
+                            />
                         </div>
                         <div className="absolute top-14 font-mono text-base font-semibold">
                             Lucas Chen
