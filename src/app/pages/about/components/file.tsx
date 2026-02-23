@@ -3,6 +3,7 @@ import React from "react";
 import blackTab from "@/assets/tab-black.png";
 import tab from "@/assets/tab.png";
 import { useBrowserEngine } from "@/hooks/use-browser";
+import { cn } from "@/lib/utils";
 
 type Props = {
     tabLocation: 0 | 1 | 2;
@@ -46,7 +47,10 @@ const File = ({ tabLocation, i, divider = false }: Props) => {
                 }}
                 dragMomentum={dragConfig.dragMomentum}
                 onUpdate={(latest) => setDragY((latest.y as number) || 0)}
-                className={`bg-background relative flex h-[400px] ${dragY < 0 ? "w-[700px] scale-[114%]" : "w-[700px]"} flex-col rounded-lg border p-8`}
+                className={cn(
+                    "bg-background relative flex h-[400px] w-[700px] flex-col rounded-lg border p-8",
+                    dragY < 0 && "scale-[114%]"
+                )}
                 style={{
                     translateZ: `${i * 2}px`,
                     rotateX: rotation,
@@ -54,7 +58,11 @@ const File = ({ tabLocation, i, divider = false }: Props) => {
                 }}
             >
                 <motion.div
-                    className={`absolute ${tabOffsetClass} -top-[37.5px] ${dragY < 0 && "pt-[2.5px]"}`}
+                    className={cn(
+                        "absolute -top-[37.5px]",
+                        tabOffsetClass,
+                        dragY < 0 && "pt-[2.5px]"
+                    )}
                     style={{
                         rotateX: -rotation,
                         transformStyle: "preserve-3d",
@@ -67,7 +75,10 @@ const File = ({ tabLocation, i, divider = false }: Props) => {
                             draggable={false}
                         />
                         <div
-                            className={`absolute flex w-[145px] justify-between text-base text-[0.925rem] tracking-tight ${divider ? "text-white" : "text-black"}`}
+                            className={cn(
+                                "absolute flex w-[145px] justify-between text-base text-[0.925rem] tracking-tight",
+                                divider ? "text-white" : "text-black"
+                            )}
                         >
                             <p>01</p>
                             <p>Section</p>
