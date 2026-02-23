@@ -49,10 +49,11 @@ const File = ({ tabLocation, i, divider = false }: Props) => {
                 onUpdate={(latest) => setDragY((latest.y as number) || 0)}
                 className={cn(
                     "bg-background relative flex h-[400px] w-[700px] flex-col rounded-lg border p-8",
-                    dragY < 0 && "scale-[114%]"
+                    dragY < 0 && "scale-[114%]",
                 )}
                 style={{
                     translateZ: `${i * 2}px`,
+                    translateY: dragY < 0 ? `50px` : "0px", // the file appears to move up when dragging because of rotation, counteract to stay aligned with cursor
                     rotateX: rotation,
                     transformStyle: "preserve-3d",
                 }}
@@ -61,7 +62,7 @@ const File = ({ tabLocation, i, divider = false }: Props) => {
                     className={cn(
                         "absolute -top-[37.5px]",
                         tabOffsetClass,
-                        dragY < 0 && "pt-[2.5px]"
+                        dragY < 0 && "pt-[2.5px]",
                     )}
                     style={{
                         rotateX: -rotation,
@@ -77,7 +78,7 @@ const File = ({ tabLocation, i, divider = false }: Props) => {
                         <div
                             className={cn(
                                 "absolute flex w-[145px] justify-between text-base text-[0.925rem] tracking-tight",
-                                divider ? "text-white" : "text-black"
+                                divider ? "text-white" : "text-black",
                             )}
                         >
                             <p>01</p>
