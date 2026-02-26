@@ -1,14 +1,16 @@
 import { motion } from "motion/react";
 import React from "react";
-import blackTab from "@/assets/tab-black.png";
-import tab from "@/assets/tab.png";
+import blackTab from "@/assets/images/cabinet/tab-black.png";
+import tab from "@/assets/images/cabinet/tab.png";
 import { useBrowserEngine } from "@/hooks/use-browser";
 import { cn } from "@/lib/utils";
 
 type Props = {
-    tabLocation: 0 | 1 | 2;
+    tabLocation: number;
+    title: string;
+    isDivider?: boolean;
     i: number;
-    divider?: boolean;
+    children: React.ReactNode;
 };
 
 const browserSpecificOptions = {
@@ -23,7 +25,7 @@ const browserSpecificOptions = {
     },
 };
 
-const File = ({ tabLocation, i, divider = false }: Props) => {
+const File = ({ tabLocation, title, children, isDivider = false, i }: Props) => {
     const browserEngine = useBrowserEngine();
     const [dragY, setDragY] = React.useState(0);
 
@@ -40,7 +42,7 @@ const File = ({ tabLocation, i, divider = false }: Props) => {
         <div className="perspective-[1000px]">
             <motion.div
                 drag="y"
-                dragConstraints={{ top: -200, bottom: 0 }}
+                dragConstraints={{ top: -250, bottom: 0 }}
                 dragElastic={dragConfig.dragElastic}
                 dragTransition={{
                     bounceStiffness: 500,
@@ -71,25 +73,22 @@ const File = ({ tabLocation, i, divider = false }: Props) => {
                 >
                     <div className="relative flex h-full w-full items-center justify-center">
                         <img
-                            src={divider ? blackTab : tab}
+                            src={isDivider ? blackTab : tab}
                             className="w-[200px]"
                             draggable={false}
                         />
                         <div
                             className={cn(
                                 "absolute flex w-[145px] justify-between text-base text-[0.925rem] tracking-tight",
-                                divider ? "text-white" : "text-black",
+                                isDivider ? "text-white" : "text-black",
                             )}
                         >
-                            <p>01</p>
-                            <p>Section</p>
+                            <p>{String(i).padStart(2, "0")}</p>
+                            <p>{title}</p>
                         </div>
                     </div>
                 </motion.div>
-                <header className="flex items-center gap-2">
-                    <h1 className="font-semibold tracking-tighter">Cartogram</h1>
-                    <h2 className="text-muted-foreground text-sm">2020-2024</h2>
-                </header>
+                {children}
             </motion.div>
         </div>
     );

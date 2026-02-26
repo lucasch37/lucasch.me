@@ -7,7 +7,7 @@ const Home = () => {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                 <div className="bg-background flex max-w-3xl flex-col border p-8 font-mono tracking-tighter">
                     <p className="font-normal">
-                        Hello, my name is Lucas. I'm currently a senior in high school with a strong
+                        Hello, my name is Lucas. I'm currently a senior in high school with an
                         interest in computer science.
                     </p>
                     <div className="flex items-end justify-between">

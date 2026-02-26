@@ -1,13 +1,13 @@
-import drawer from "@/assets/drawer.png";
-import blackTab from "@/assets/tab-black.png";
-import tab from "@/assets/tab.png";
+import cabinet from "@/assets/images/cabinet/cabinet.png";
+import blackTab from "@/assets/images/cabinet/tab-black.png";
+import tab from "@/assets/images/cabinet/tab.png";
 import { useImagePreloader } from "@/hooks/use-image-preloader";
 import { ArrowBigDown, Loader2 } from "lucide-react";
 import { useMemo } from "react";
-import Cabinet from "./components/cabinet";
+import Cabinet from "../../../components/cabinet";
 
 const About = () => {
-    const imageUrls = useMemo(() => [drawer, tab, blackTab], []);
+    const imageUrls = useMemo(() => [cabinet, tab, blackTab], []);
 
     // preload images to prevent strange appearance when images haven't loaded yet
     const imagesLoaded = useImagePreloader(imageUrls);
