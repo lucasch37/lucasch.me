@@ -1,13 +1,13 @@
 import { Routes, Route } from "react-router";
-import Home from "./pages";
+import Home from "./pages/home";
 import About from "./pages/about";
-import Layout from "./pages/layout";
+import HomeLayout from "./pages/home/home-layout";
 import AboutLayout from "./pages/about/about-layout";
 
 const App = () => {
     return (
         <Routes>
-            <Route element={<Layout />}>
+            <Route element={<HomeLayout />}>
                 <Route index element={<Home />} />
             </Route>
             <Route element={<AboutLayout />}>
