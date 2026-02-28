@@ -6,7 +6,7 @@ import cabinetImg from "@/assets/images/cabinet/cabinet.png";
 const Cabinet = () => {
     return (
         <>
-            <motion.div className="flex flex-col items-center space-y-[-380px] px-16 pt-[30vh] [clip-path:inset(0_0_360px_0)]">
+            <motion.div className="flex flex-col items-center space-y-[-380px] px-16 [clip-path:inset(-1000px_0_360px_0)] md:pt-[30vh]">
                 {cabinetLayout.map((file, i) => (
                     <File
                         key={i}

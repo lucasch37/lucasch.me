@@ -4,7 +4,7 @@ import tab from "@/assets/images/cabinet/tab.png";
 import { useImagePreloader } from "@/hooks/use-image-preloader";
 import { ArrowBigDown, Loader2 } from "lucide-react";
 import { useMemo } from "react";
-import Cabinet from "../../../components/cabinet";
+import Cabinet from "../../../components/portfolio/cabinet";
 
 const About = () => {
     const imageUrls = useMemo(() => [cabinet, tab, blackTab], []);

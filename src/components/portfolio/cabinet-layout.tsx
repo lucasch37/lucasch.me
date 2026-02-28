@@ -1,7 +1,7 @@
 import type React from "react";
-import DividerFile from "@/components/cabinet-files/divider-file";
-import InternshipFile from "@/components/cabinet-files/internship-file";
-import PlaceholderFile from "@/components/cabinet-files/placeholder-file";
+import DividerFile from "@/components/portfolio/cabinet-files/divider-file";
+import InternshipFile from "@/components/portfolio/cabinet-files/internship-file";
+import PlaceholderFile from "@/components/portfolio/cabinet-files/placeholder-file";
 import UniversityFile from "./cabinet-files/university-file";
 import ResearchFile from "./cabinet-files/research-file";
 import SkillsFile from "./cabinet-files/skills-file";

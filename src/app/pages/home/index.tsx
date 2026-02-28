@@ -5,12 +5,12 @@ const Home = () => {
     return (
         <section className="container mx-auto px-8">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                <div className="bg-background flex max-w-3xl flex-col border p-8 font-mono tracking-tighter">
+                <div className="bg-background flex w-[80vw] max-w-3xl flex-col border p-8 font-mono tracking-tighter">
                     <p className="font-normal">
                         Hello, my name is Lucas. I'm currently a senior in high school with an
                         interest in computer science.
                     </p>
-                    <div className="flex items-end justify-between">
+                    <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end md:gap-0">
                         <Link
                             to={"/about"}
                             className="mt-8 flex w-fit items-center gap-1 border-b text-lg font-medium"
@@ -35,11 +35,7 @@ const Home = () => {
                                     />
                                 </svg>
                             </a>
-                            <a
-                                href="mailto:lucaschen0126@gmail.com"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
+                            <a href="mailto:lucaschen0126@gmail.com">
                                 <div className="hover:bg-foreground bg-muted-foreground flex h-8 w-8 items-center justify-center rounded-full transition-colors">
                                     <MailIcon size={22} className="text-background" />
                                 </div>
