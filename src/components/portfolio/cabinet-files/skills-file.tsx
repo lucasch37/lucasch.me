@@ -1,5 +1,5 @@
 import react from "@/assets/images/portfolio/react.png";
-import { loremIpsum } from "@/components/cabinet-layout";
+import { loremIpsum } from "@/components/portfolio/cabinet-layout";
 import { FileContent, FileHeader, FileImage, FileInfo, FileText, FileTitle } from "../file-content";
 
 const SkillsFile = () => {

@@ -35,11 +35,7 @@ const Home = () => {
                                     />
                                 </svg>
                             </a>
-                            <a
-                                href="mailto:lucaschen0126@gmail.com"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
+                            <a href="mailto:lucaschen0126@gmail.com">
                                 <div className="hover:bg-foreground bg-muted-foreground flex h-8 w-8 items-center justify-center rounded-full transition-colors">
                                     <MailIcon size={22} className="text-background" />
                                 </div>

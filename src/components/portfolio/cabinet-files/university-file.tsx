@@ -1,4 +1,4 @@
-import { loremIpsum } from "@/components/cabinet-layout";
+import { loremIpsum } from "@/components/portfolio/cabinet-layout";
 import {
     FileCaption,
     FileContent,
