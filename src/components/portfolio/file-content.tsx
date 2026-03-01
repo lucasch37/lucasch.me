@@ -6,9 +6,17 @@ type FileContentProps = React.HTMLAttributes<HTMLDivElement> & {
 };
 
 const FileContent = ({ className, isDivider = false, children, ...props }: FileContentProps) => {
+    const handlePointerDownCapture: React.PointerEventHandler<HTMLDivElement> = (event) => {
+        event.stopPropagation();
+    };
+
     if (isDivider) {
         return (
-            <div className={cn("relative flex h-full flex-col gap-2", className)} {...props}>
+            <div
+                className={cn("relative flex h-full flex-col gap-2 select-text", className)}
+                onPointerDownCapture={handlePointerDownCapture}
+                {...props}
+            >
                 {children}
             </div>
         );
@@ -17,9 +25,10 @@ const FileContent = ({ className, isDivider = false, children, ...props }: FileC
     return (
         <div
             className={cn(
-                "relative flex h-full gap-6 rounded-lg border bg-white/25 p-6",
+                "relative flex h-full gap-6 rounded-lg border bg-white/25 p-6 select-text",
                 className,
             )}
+            onPointerDownCapture={handlePointerDownCapture}
             {...props}
         >
             <div className="absolute inset-0 -z-20 h-full w-full bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]"></div>

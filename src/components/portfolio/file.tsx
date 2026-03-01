@@ -71,7 +71,7 @@ const File = ({ tabLocation, title, children, isDivider = false, i }: Props) => 
                         transformStyle: "preserve-3d",
                     }}
                 >
-                    <div className="relative flex h-full w-full items-center justify-center">
+                    <div className="relative flex h-full w-full cursor-pointer items-center justify-center">
                         <img
                             src={isDivider ? blackTab : tab}
                             className="w-[200px]"
