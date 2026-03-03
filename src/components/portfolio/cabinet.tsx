@@ -13,7 +13,7 @@ const Cabinet = () => {
                         title={file.title}
                         tabLocation={file.tabLocation}
                         isDivider={file.isDivider}
-                        i={i}
+                        index={i}
                     >
                         {file.content}
                     </File>
