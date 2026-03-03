@@ -6,57 +6,57 @@ import { useBrowserEngine } from "@/hooks/use-browser";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 
+const baseDragOptions = {
+    rotationAngle: -40,
+    rotationYOffset: 50,
+};
+
+const getDragOptions = (isChromium: boolean, isMobile: boolean) => ({
+    ...baseDragOptions,
+
+    // on non chromium browsers, the drag effect is bugged, disabling momentum and elasticity fixes this
+    dragMomentum: isChromium,
+    dragElastic: isChromium ? 0.05 : 0,
+
+    // increase drag speed on mobile, everything is scaled down on mobile, making dragging slower
+    dragConstraintTop: isMobile ? -90 : -250,
+    dragSpeedMultiplier: isMobile ? 2 : 1,
+});
+
+const TAB_OFFSETS = ["left-[60px]", "left-[250px]", "left-[440px]"];
+
 type Props = {
-    tabLocation: number;
+    tabLocation: 0 | 1 | 2;
     title: string;
     isDivider?: boolean;
-    i: number;
+    index: number;
     children: React.ReactNode;
 };
 
-const browserSpecificOptions = {
-    chromium: {
-        dragMomentum: true,
-        dragElastic: 0.05,
-    },
-    // on non chromium browsers, the drag effect is bugged, disabling momentum and elasticity fixes this
-    nonChromium: {
-        dragMomentum: false,
-        dragElastic: 0.0,
-    },
-};
-
-const File = ({ tabLocation, title, children, isDivider = false, i }: Props) => {
+const File = ({ tabLocation, title, children, isDivider = false, index }: Props) => {
     const isMobile = useIsMobile();
     const browserEngine = useBrowserEngine();
     const [dragY, setDragY] = React.useState(0);
 
+    const tabOffsetClass = TAB_OFFSETS[tabLocation] ?? TAB_OFFSETS[0];
+    const dragConfig = getDragOptions(browserEngine === "chromium", isMobile);
+
     // for 3d effect, when selecting a file however, face user straight on
-    const rotation = dragY < 0 ? 0 : -40;
+    const rotation = dragY < 0 ? 0 : dragConfig.rotationAngle;
 
-    const tabOffsetClass =
-        tabLocation === 0 ? "left-[60px]" : tabLocation === 1 ? "left-[250px]" : "left-[440px]";
-
-    const dragConfig =
-        browserSpecificOptions[browserEngine === "chromium" ? "chromium" : "nonChromium"];
-
-    // increase drag speed on mobile since dragging is harder when scaled down
-    const dragSpeedMultiplier = isMobile ? 2 : 1;
-    const dragConstraintTop = isMobile ? -90 : -250;
+    // add offset to counteract the file appearing to move up when it rotates
+    const yOffset = dragY < 0 ? dragConfig.rotationYOffset : 0;
 
     // on mobile, apply dragSpeedMultiplier
-    // add 50px to counteract the file appearing to move up when it rotates
     const translateY = isMobile
-        ? `${dragY * dragSpeedMultiplier + (dragY < 0 ? 50 : 0)}px`
-        : dragY < 0
-          ? `50px`
-          : "0px";
+        ? `${dragY * dragConfig.dragSpeedMultiplier + yOffset}px`
+        : `${yOffset}px`;
 
     return (
         <div className="perspective-[1000px]">
             <motion.div
                 drag="y"
-                dragConstraints={{ top: dragConstraintTop, bottom: 0 }}
+                dragConstraints={{ top: dragConfig.dragConstraintTop, bottom: 0 }}
                 dragElastic={dragConfig.dragElastic}
                 dragTransition={{
                     bounceStiffness: 500,
@@ -68,7 +68,7 @@ const File = ({ tabLocation, title, children, isDivider = false, i }: Props) => 
                     dragY < 0 && "scale-[114%]",
                 )}
                 style={{
-                    translateZ: `${i * 2}px`,
+                    translateZ: `${index * 2}px`,
                     translateY,
                     rotateX: rotation,
                     transformStyle: "preserve-3d",
@@ -97,7 +97,7 @@ const File = ({ tabLocation, title, children, isDivider = false, i }: Props) => 
                                 isDivider ? "text-white" : "text-black",
                             )}
                         >
-                            <p>{String(i).padStart(2, "0")}</p>
+                            <p>{String(index).padStart(2, "0")}</p>
                             <p>{title}</p>
                         </div>
                     </div>
