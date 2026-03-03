@@ -4,6 +4,7 @@ import blackTab from "@/assets/images/cabinet/tab-black.png";
 import tab from "@/assets/images/cabinet/tab.png";
 import { useBrowserEngine } from "@/hooks/use-browser";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type Props = {
     tabLocation: number;
@@ -26,6 +27,7 @@ const browserSpecificOptions = {
 };
 
 const File = ({ tabLocation, title, children, isDivider = false, i }: Props) => {
+    const isMobile = useIsMobile();
     const browserEngine = useBrowserEngine();
     const [dragY, setDragY] = React.useState(0);
 
@@ -38,11 +40,23 @@ const File = ({ tabLocation, title, children, isDivider = false, i }: Props) => 
     const dragConfig =
         browserSpecificOptions[browserEngine === "chromium" ? "chromium" : "nonChromium"];
 
+    // increase drag speed on mobile since dragging is harder when scaled down
+    const dragSpeedMultiplier = isMobile ? 2 : 1;
+    const dragConstraintTop = isMobile ? -90 : -250;
+
+    // on mobile, apply dragSpeedMultiplier
+    // add 50px to counteract the file appearing to move up when it rotates
+    const translateY = isMobile
+        ? `${dragY * dragSpeedMultiplier + (dragY < 0 ? 50 : 0)}px`
+        : dragY < 0
+          ? `50px`
+          : "0px";
+
     return (
         <div className="perspective-[1000px]">
             <motion.div
                 drag="y"
-                dragConstraints={{ top: -250, bottom: 0 }}
+                dragConstraints={{ top: dragConstraintTop, bottom: 0 }}
                 dragElastic={dragConfig.dragElastic}
                 dragTransition={{
                     bounceStiffness: 500,
@@ -55,7 +69,7 @@ const File = ({ tabLocation, title, children, isDivider = false, i }: Props) => 
                 )}
                 style={{
                     translateZ: `${i * 2}px`,
-                    translateY: dragY < 0 ? `50px` : "0px", // the file appears to move up when dragging because of rotation, counteract to stay aligned with cursor
+                    translateY,
                     rotateX: rotation,
                     transformStyle: "preserve-3d",
                 }}
