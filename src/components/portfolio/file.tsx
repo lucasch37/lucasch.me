@@ -15,12 +15,12 @@ const getDragOptions = (isChromium: boolean, isMobile: boolean) => ({
     ...baseDragOptions,
 
     // on non chromium browsers, the drag effect is bugged, disabling momentum and elasticity fixes this
-    dragMomentum: isChromium,
-    dragElastic: isChromium ? 0.05 : 0,
+    dragMomentum: isChromium && !isMobile,
+    dragElastic: isChromium && !isMobile ? 0.05 : 0,
 
     // increase drag speed on mobile, everything is scaled down on mobile, making dragging slower
-    dragConstraintTop: isMobile ? -90 : -250,
-    dragSpeedMultiplier: isMobile ? 2 : 1,
+    dragConstraintTop: isMobile ? -105 : -250,
+    dragSpeedMultiplier: isMobile ? 1.5 : 1,
 });
 
 const TAB_OFFSETS = ["left-[60px]", "left-[250px]", "left-[440px]"];
